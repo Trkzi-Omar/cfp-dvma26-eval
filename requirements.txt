@@ -1,0 +1,9 @@
+# The core system runs on the Python standard library only. It has no runtime
+# dependencies, which is what keeps clone-to-demo under ten minutes and the demo
+# independent of conference wifi.
+#
+# pytest is only needed for `make test`.
+pytest>=8.0
+
+# Optional. Only needed if you set MOCK_MODE=0 to call a real provider.
+# anthropic>=0.40

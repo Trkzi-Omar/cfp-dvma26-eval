@@ -1,0 +1,20 @@
+# Optional. The repo does not need Docker for anything: make setup / run-demo /
+# eval / traces all run natively with the standard library.
+#
+# This one service is a convenience for browsing the JSON traces in a browser
+# during a talk. It serves the traces/ directory over http on localhost:8000
+# using Python's built-in web server, so there is no image to build and no
+# dependency to install.
+#
+#   docker compose up trace-viewer
+#   open http://localhost:8000/examples/sample_bad_route_trace.json
+
+services:
+  trace-viewer:
+    image: python:3.12-slim
+    working_dir: /work
+    command: ["python", "-m", "http.server", "8000", "--directory", "traces"]
+    volumes:
+      - ./traces:/work/traces:ro
+    ports:
+      - "8000:8000"

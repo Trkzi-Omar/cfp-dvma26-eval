@@ -1,0 +1,179 @@
+{
+  "ticket": {
+    "id": "ambiguous-001",
+    "subject": "Charged twice and now I can't get in",
+    "body": "I was charged twice this month for my Pro plan and now I can't log in to check my account. This is really frustrating. Please fix the double charge.",
+    "customer_tier": "pro",
+    "expected_route": "billing",
+    "failure_mode": "wrong_route",
+    "notes": "The real problem is a duplicate charge (billing). The login complaint is a symptom. The router latches onto 'can't log in' and misroutes to technical, so the pipeline retrieves login docs and produces a clean, confident answer to the wrong problem. Every in-loop check passes."
+  },
+  "route": "technical",
+  "retrieved_context": [
+    {
+      "kind": "doc",
+      "source": "technical_api_limits.md",
+      "category": "technical",
+      "score": 0.067,
+      "matched_terms": [
+        "pro"
+      ],
+      "snippet": "# Nimbus API rate limits",
+      "content": "# Nimbus API rate limits\n\nThe Nimbus API enforces per-token rate limits.\n\n- Free: 60 requests per minute.\n- Pro: 600 requests per minute.\n- Enterprise: custom, negotiated per contract.\n\nExceeding the limit returns HTTP 429 with a `Retry-After` header. Back off and\nretry after the indicated interval. Batch endpoints count as a single request."
+    },
+    {
+      "kind": "policy",
+      "source": "policy_data_privacy.md",
+      "score": 0.067,
+      "matched_terms": [
+        "account"
+      ],
+      "content": "# Support policy: data privacy\n\n- Never reveal one customer's data to another.\n- Never include internal identifiers, tokens, or credentials in a response.\n- Verify identity before making account changes on someone's behalf.\n- Personal data may only be used to resolve the customer's own request."
+    },
+    {
+      "kind": "policy",
+      "source": "policy_escalation.md",
+      "score": 0.067,
+      "matched_terms": [
+        "account"
+      ],
+      "content": "# Support policy: escalation to a human\n\nEscalate to a human agent, and do not auto-resolve, when any of these hold:\n\n- The guardrail flags a prompt-injection attempt or a data leak.\n- The response quality stays below the quality bar after the retry budget.\n- Documentation and policy conflict and the correct answer is not clear.\n- The request involves account deletion, legal, or a security incident.\n- The customer is on the Enterprise tier and explicitly asks for a human."
+    }
+  ],
+  "draft": "Thanks for reaching out. If you are having trouble signing in, please clear your browser cache, disable extensions, and try an incognito window. You can also reset your password from the sign-in page. This usually resolves login issues within a few minutes.",
+  "scores": {
+    "critic": 0.78
+  },
+  "guardrail_flags": [],
+  "decision": "auto_resolve",
+  "final_response": "Thanks for reaching out. If you are having trouble signing in, please clear your browser cache, disable extensions, and try an incognito window. You can also reset your password from the sign-in page. This usually resolves login issues within a few minutes.",
+  "escalation_reason": null,
+  "retry_count": 0,
+  "totals": {
+    "cost_usd": 0.000877,
+    "latency_s": 3.7,
+    "tokens": 1548,
+    "tool_calls": 3
+  },
+  "trace": [
+    {
+      "agent": "router",
+      "inputs": {
+        "ticket_id": "ambiguous-001"
+      },
+      "outputs": {
+        "route": "technical",
+        "raw": "Reasoning: classifying the ticket.\nRoute: technical"
+      },
+      "latency_s": 0.4,
+      "prompt_tokens": 276,
+      "completion_tokens": 12,
+      "cost_usd": 0.000156
+    },
+    {
+      "agent": "retriever",
+      "inputs": {
+        "query": "Charged twice and now I can't get in I was charged twice this month for my Pro plan and now I can't log in to check my account. This is really frustrating. Please fix the double charge.",
+        "route": "technical"
+      },
+      "outputs": {
+        "doc_hits": [
+          "technical_api_limits.md"
+        ],
+        "policy_hits": [
+          "policy_data_privacy.md",
+          "policy_escalation.md"
+        ],
+        "retrieved_count": 3,
+        "tool_calls": [
+          {
+            "tool": "search_docs",
+            "route": "technical",
+            "hits": 1
+          },
+          {
+            "tool": "policy_lookup",
+            "hits": 2
+          }
+        ]
+      },
+      "latency_s": 0.0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "agent": "solver",
+      "inputs": {
+        "ticket_id": "ambiguous-001",
+        "retrieved_count": 3,
+        "attempt": 1
+      },
+      "outputs": {
+        "draft": "Thanks for reaching out. If you are having trouble signing in, please clear your browser cache, disable extensions, and try an incognito window. You can also reset your password from the sign-in page. This usually resolves login issues within a few minutes."
+      },
+      "latency_s": 1.8,
+      "prompt_tokens": 538,
+      "completion_tokens": 64,
+      "cost_usd": 0.000365
+    },
+    {
+      "agent": "guardrail",
+      "inputs": {
+        "ticket_id": "ambiguous-001"
+      },
+      "outputs": {
+        "flags": [],
+        "verdict": "SAFE: No policy violations or injection detected.",
+        "blocked": false
+      },
+      "latency_s": 0.6,
+      "prompt_tokens": 297,
+      "completion_tokens": 12,
+      "cost_usd": 0.000167
+    },
+    {
+      "agent": "critic",
+      "inputs": {
+        "ticket_id": "ambiguous-001",
+        "attempt": 1
+      },
+      "outputs": {
+        "score": 0.78,
+        "threshold": 0.7,
+        "retry_requested": false,
+        "raw": "Score: 0.78\nReason: Reads as a clear, helpful login answer."
+      },
+      "latency_s": 0.9,
+      "prompt_tokens": 335,
+      "completion_tokens": 14,
+      "cost_usd": 0.000189
+    },
+    {
+      "agent": "finalizer",
+      "inputs": {
+        "ticket_id": "ambiguous-001",
+        "critic_score": 0.78
+      },
+      "outputs": {
+        "decision": "auto_resolve",
+        "escalation_reason": null,
+        "ticket_update": {
+          "ticket_id": "ambiguous-001",
+          "status": "resolved",
+          "resolution": "Thanks for reaching out. If you are having trouble signing in, please clear your browser cache, disable extensions, and try an incognito window. You can also reset your password from the sign-in page. This usually resolves login issues within a few minutes."
+        },
+        "tool_calls": [
+          {
+            "tool": "update_ticket",
+            "status": "resolved"
+          }
+        ]
+      },
+      "latency_s": 0.0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "cost_usd": 0.0
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "missing-001",
+  "subject": "Schedule automatic dark mode at sunset",
+  "body": "How do I set Nimbus to automatically switch to dark theme at sunset and back to light at sunrise, per device?",
+  "customer_tier": "pro",
+  "expected_route": "technical",
+  "failure_mode": "missing_context",
+  "notes": "This feature does not exist in any document. Retrieval returns little or nothing, but the solver still produces a confident, specific, step-by-step answer citing settings paths that are not real. Plausible but useless, and it passes the in-loop critic."
+}

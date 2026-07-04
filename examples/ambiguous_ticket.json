@@ -1,0 +1,9 @@
+{
+  "id": "ambiguous-001",
+  "subject": "Charged twice and now I can't get in",
+  "body": "I was charged twice this month for my Pro plan and now I can't log in to check my account. This is really frustrating. Please fix the double charge.",
+  "customer_tier": "pro",
+  "expected_route": "billing",
+  "failure_mode": "wrong_route",
+  "notes": "The real problem is a duplicate charge (billing). The login complaint is a symptom. The router latches onto 'can't log in' and misroutes to technical, so the pipeline retrieves login docs and produces a clean, confident answer to the wrong problem. Every in-loop check passes."
+}

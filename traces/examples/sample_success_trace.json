@@ -1,0 +1,201 @@
+{
+  "ticket": {
+    "id": "easy-001",
+    "subject": "Forgot my password",
+    "body": "Hi, I can't remember my password and I can't sign in. How do I reset my password? My account email is the one I'm writing from.",
+    "customer_tier": "free",
+    "expected_route": "account",
+    "failure_mode": "none",
+    "notes": "Happy path. Correct route, grounded answer, auto-resolved."
+  },
+  "route": "account",
+  "retrieved_context": [
+    {
+      "kind": "doc",
+      "source": "account_password_reset.md",
+      "category": "account",
+      "score": 0.8,
+      "matched_terms": [
+        "account",
+        "email",
+        "forgot",
+        "from",
+        "one",
+        "password",
+        "reset",
+        "sign"
+      ],
+      "snippet": "# Resetting your Nimbus password",
+      "content": "# Resetting your Nimbus password\n\nIf you cannot sign in because you forgot your password, you can reset it yourself.\n\n1. Go to the Nimbus sign-in page and click **Forgot password**.\n2. Enter the email address on your account.\n3. We send a password reset link to that email. The link expires after 60 minutes.\n4. Open the link and choose a new password.\n\nIf the reset email does not arrive within a few minutes, check your spam folder\nand confirm you entered the email associated with your account. Reset links are\nsingle use. If a link has expired, request a new one from the same page."
+    },
+    {
+      "kind": "doc",
+      "source": "account_profile.md",
+      "category": "account",
+      "score": 0.3,
+      "matched_terms": [
+        "email",
+        "from",
+        "sign"
+      ],
+      "snippet": "# Managing your Nimbus profile",
+      "content": "# Managing your Nimbus profile\n\nUpdate your profile from **Settings > Profile**. You can change your display\nname, avatar, notification preferences, and the email address used for sign-in.\n\nChanging your sign-in email sends a confirmation link to the new address. The\nchange takes effect only after you confirm from that link."
+    },
+    {
+      "kind": "policy",
+      "source": "policy_data_privacy.md",
+      "score": 0.2,
+      "matched_terms": [
+        "account",
+        "one"
+      ],
+      "content": "# Support policy: data privacy\n\n- Never reveal one customer's data to another.\n- Never include internal identifiers, tokens, or credentials in a response.\n- Verify identity before making account changes on someone's behalf.\n- Personal data may only be used to resolve the customer's own request."
+    },
+    {
+      "kind": "policy",
+      "source": "policy_escalation.md",
+      "score": 0.1,
+      "matched_terms": [
+        "account"
+      ],
+      "content": "# Support policy: escalation to a human\n\nEscalate to a human agent, and do not auto-resolve, when any of these hold:\n\n- The guardrail flags a prompt-injection attempt or a data leak.\n- The response quality stays below the quality bar after the retry budget.\n- Documentation and policy conflict and the correct answer is not clear.\n- The request involves account deletion, legal, or a security incident.\n- The customer is on the Enterprise tier and explicitly asks for a human."
+    }
+  ],
+  "draft": "Thanks for reaching out. To reset your password, open the sign-in page and click 'Forgot password', enter your account email, and follow the link we send you. The link expires after 60 minutes. If it does not arrive within a few minutes, check your spam folder and confirm you used your account email.",
+  "scores": {
+    "critic": 0.92
+  },
+  "guardrail_flags": [],
+  "decision": "auto_resolve",
+  "final_response": "Thanks for reaching out. To reset your password, open the sign-in page and click 'Forgot password', enter your account email, and follow the link we send you. The link expires after 60 minutes. If it does not arrive within a few minutes, check your spam folder and confirm you used your account email.",
+  "escalation_reason": null,
+  "retry_count": 0,
+  "totals": {
+    "cost_usd": 0.000964,
+    "latency_s": 3.7,
+    "tokens": 1692,
+    "tool_calls": 3
+  },
+  "trace": [
+    {
+      "agent": "router",
+      "inputs": {
+        "ticket_id": "easy-001"
+      },
+      "outputs": {
+        "route": "account",
+        "raw": "Reasoning: classifying the ticket.\nRoute: account"
+      },
+      "latency_s": 0.4,
+      "prompt_tokens": 265,
+      "completion_tokens": 12,
+      "cost_usd": 0.00015
+    },
+    {
+      "agent": "retriever",
+      "inputs": {
+        "query": "Forgot my password Hi, I can't remember my password and I can't sign in. How do I reset my password? My account email is the one I'm writing from.",
+        "route": "account"
+      },
+      "outputs": {
+        "doc_hits": [
+          "account_password_reset.md",
+          "account_profile.md"
+        ],
+        "policy_hits": [
+          "policy_data_privacy.md",
+          "policy_escalation.md"
+        ],
+        "retrieved_count": 4,
+        "tool_calls": [
+          {
+            "tool": "search_docs",
+            "route": "account",
+            "hits": 2
+          },
+          {
+            "tool": "policy_lookup",
+            "hits": 2
+          }
+        ]
+      },
+      "latency_s": 0.0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "agent": "solver",
+      "inputs": {
+        "ticket_id": "easy-001",
+        "retrieved_count": 4,
+        "attempt": 1
+      },
+      "outputs": {
+        "draft": "Thanks for reaching out. To reset your password, open the sign-in page and click 'Forgot password', enter your account email, and follow the link we send you. The link expires after 60 minutes. If it does not arrive within a few minutes, check your spam folder and confirm you used your account email."
+      },
+      "latency_s": 1.8,
+      "prompt_tokens": 677,
+      "completion_tokens": 75,
+      "cost_usd": 0.000451
+    },
+    {
+      "agent": "guardrail",
+      "inputs": {
+        "ticket_id": "easy-001"
+      },
+      "outputs": {
+        "flags": [],
+        "verdict": "SAFE: No policy violations or injection detected.",
+        "blocked": false
+      },
+      "latency_s": 0.6,
+      "prompt_tokens": 297,
+      "completion_tokens": 12,
+      "cost_usd": 0.000167
+    },
+    {
+      "agent": "critic",
+      "inputs": {
+        "ticket_id": "easy-001",
+        "attempt": 1
+      },
+      "outputs": {
+        "score": 0.92,
+        "threshold": 0.7,
+        "retry_requested": false,
+        "raw": "Score: 0.92\nReason: Directly answers the question and is grounded in the docs."
+      },
+      "latency_s": 0.9,
+      "prompt_tokens": 335,
+      "completion_tokens": 19,
+      "cost_usd": 0.000196
+    },
+    {
+      "agent": "finalizer",
+      "inputs": {
+        "ticket_id": "easy-001",
+        "critic_score": 0.92
+      },
+      "outputs": {
+        "decision": "auto_resolve",
+        "escalation_reason": null,
+        "ticket_update": {
+          "ticket_id": "easy-001",
+          "status": "resolved",
+          "resolution": "Thanks for reaching out. To reset your password, open the sign-in page and click 'Forgot password', enter your account email, and follow the link we send you. The link expires after 60 minutes. If it does not arrive within a few minutes, check your spam folder and confirm you used your account email."
+        },
+        "tool_calls": [
+          {
+            "tool": "update_ticket",
+            "status": "resolved"
+          }
+        ]
+      },
+      "latency_s": 0.0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "cost_usd": 0.0
+    }
+  ]
+}

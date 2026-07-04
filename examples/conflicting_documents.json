@@ -1,0 +1,9 @@
+{
+  "id": "conflicting-001",
+  "subject": "Refund after 20 days",
+  "body": "I bought the Pro plan 20 days ago and I'm not using it. Can I still get a refund?",
+  "customer_tier": "pro",
+  "expected_route": "billing",
+  "failure_mode": "conflicting_documents",
+  "notes": "The refund documentation says 30 days; the refund policy says 14 days. At 20 days the two sources give opposite answers. The solver picks the doc (30 days) and confidently approves, when policy says this should be escalated for manager approval. Shows why groundedness alone is not enough when the ground truth disagrees with itself."
+}

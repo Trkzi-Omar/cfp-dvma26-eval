@@ -1,0 +1,7 @@
+{"id": "easy-001", "expected_route": "account"}
+{"id": "ambiguous-001", "expected_route": "billing"}
+{"id": "injection-001", "expected_route": "general"}
+{"id": "missing-001", "expected_route": "technical"}
+{"id": "conflicting-001", "expected_route": "billing"}
+{"id": "badjudge-001", "expected_route": "general"}
+{"id": "expensive-001", "expected_route": "technical"}

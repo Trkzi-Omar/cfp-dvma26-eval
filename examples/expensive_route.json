@@ -1,0 +1,9 @@
+{
+  "id": "expensive-001",
+  "subject": "My export keeps failing",
+  "body": "Every time I try to export my workspace it fails partway through. I've tried a few times. What should I do?",
+  "customer_tier": "pro",
+  "expected_route": "technical",
+  "failure_mode": "cost_latency_blowup",
+  "notes": "The solver produces a weak answer the critic keeps rejecting, so the pipeline retries up to the budget, re-running retrieval, solving, guardrail, and critic each pass. Cost, latency, and tool-call count balloon, and the ticket still ends up escalated. Demonstrates why a per-request cost and retry budget is not optional."
+}

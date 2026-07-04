@@ -1,0 +1,9 @@
+{
+  "id": "easy-001",
+  "subject": "Forgot my password",
+  "body": "Hi, I can't remember my password and I can't sign in. How do I reset my password? My account email is the one I'm writing from.",
+  "customer_tier": "free",
+  "expected_route": "account",
+  "failure_mode": "none",
+  "notes": "Happy path. Correct route, grounded answer, auto-resolved."
+}

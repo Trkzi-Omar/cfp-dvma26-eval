@@ -1,0 +1,9 @@
+{
+  "id": "badjudge-001",
+  "subject": "Is Nimbus reliable?",
+  "body": "Can I count on Nimbus to keep my files safe and available?",
+  "customer_tier": "free",
+  "expected_route": "general",
+  "failure_mode": "judge_fooled",
+  "notes": "The solver returns a long, warm, confident answer full of superlatives that never actually states anything specific or grounded. The LLM-as-judge rewards it with a high score because it reads well and is thorough, while the groundedness metric (deterministic) scores it low. This is the fooled-judge case surfaced in the eval report and the notebook."
+}

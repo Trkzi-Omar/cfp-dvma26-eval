@@ -1,0 +1,24 @@
+# The core system has no runtime dependencies (standard library only). This file
+# exists so the repo is a well-formed Python project and so tooling (pytest,
+# formatters) has a single config home. See requirements.txt for the dev extras.
+
+[project]
+name = "multi-agent-prod-reference"
+version = "0.1.0"
+description = "A production-shaped reference implementation for evaluating and operating multi-agent LLM systems."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+provider = ["anthropic>=0.40"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
