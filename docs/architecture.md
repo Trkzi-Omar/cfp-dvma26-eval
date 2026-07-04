@@ -5,7 +5,10 @@ state object between them. There is no agent framework. The entire contract is:
 each agent reads and writes `State` (see `agents/base.py`) and appends a
 `TraceStep`. That is enough to demonstrate handoff, shared state, routing,
 retries, tool use, and end-to-end observability, and it keeps the whole thing
-legible from a single slide.
+legible from a single slide. The router-plus-specialists shape follows the
+composable patterns in Anthropic's [Building Effective AI Agents](https://www.anthropic.com/engineering/building-effective-agents);
+for the same shape at production scale, see their
+[multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system).
 
 ```
 Incoming ticket
@@ -51,6 +54,8 @@ the field.
 injection and leak patterns, and an LLM policy check. Either can raise a flag. A
 flagged response is never sent; it escalates. Defence in depth matters because
 relying on the model alone to police the model is the gap the talk warns about.
+Prompt injection is [OWASP LLM01](https://genai.owasp.org/llmrisk/llm01-prompt-injection/),
+the top risk for LLM applications.
 
 **Critic / Evaluator (`agents/critic.py`).** Scores the draft and can request a
 retry. It is an in-loop quality gate, and a cautionary one: it passes the
@@ -68,7 +73,10 @@ back to the fake ticket system so each run has a real side effect to observe.
 guardrail flags, decision, final response, retry count, and the trace) and
 `TraceStep` (agent, inputs, outputs, latency, tokens, cost). Every agent appends
 one step, so the full trace of a request, including its cost and latency budget,
-is available for inspection without any external tracing system.
+is available for inspection without any external tracing system. The fields on
+`TraceStep` mirror the intent of the vendor-neutral
+[OpenTelemetry GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai),
+so the same trace maps cleanly onto a real observability backend.
 
 ## The LLM boundary
 

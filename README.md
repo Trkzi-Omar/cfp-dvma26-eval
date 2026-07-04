@@ -84,6 +84,16 @@ See [docs/failure_modes.md](docs/failure_modes.md).
 
 The short version lives in [docs/production_checklist.md](docs/production_checklist.md). The long version is the talk.
 
+## Further reading
+
+The practices here are documented across the major vendors and standards bodies, not invented for this repo. [docs/references.md](docs/references.md) maps each concept in the code to authoritative sources, spanning LangChain/LangGraph, OpenAI, Anthropic, Google, IBM, OWASP, and OpenTelemetry. A few to start with:
+
+- Anthropic, [Building Effective AI Agents](https://www.anthropic.com/engineering/building-effective-agents) and [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)
+- OpenAI, [Graders](https://developers.openai.com/api/docs/guides/graders) (see "grader hacking", the LLM-as-judge failure this repo reproduces)
+- Anthropic, [Define success criteria and build evaluations](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests) and LangChain, [LangSmith Evaluation](https://docs.langchain.com/langsmith/evaluation)
+- OWASP, [LLM01:2025 Prompt Injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+- OpenTelemetry, [GenAI Semantic Conventions](https://github.com/open-telemetry/semantic-conventions-genai)
+
 ## Talk mapping
 
 | Talk segment | Code |

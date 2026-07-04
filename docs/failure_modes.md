@@ -45,3 +45,12 @@ what the evaluation harness (`evals/`) and the traces (`traces/`) are for.
 Notice that no single metric catches everything, and the two most trusted
 in-loop signals (the critic and the LLM-as-judge) catch the least. That is the
 argument.
+
+The LLM-as-judge failure is not unique to this repo. OpenAI documents it directly
+as "grader hacking" in their [Graders](https://developers.openai.com/api/docs/guides/graders)
+guide, and LangSmith's [LLM-as-a-judge](https://docs.langchain.com/langsmith/llm-as-judge)
+docs cover configuring and, crucially, validating a judge. The lesson both share,
+and the one `evals/judges/llm_as_judge.py` makes concrete: a judge you have not
+tried to fool is a judge that is fooling you. For the broader risk taxonomy,
+prompt injection is [OWASP LLM01](https://genai.owasp.org/llmrisk/llm01-prompt-injection/).
+See [references.md](references.md) for the full source list.

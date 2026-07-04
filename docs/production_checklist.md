@@ -17,7 +17,10 @@ see what "done" looks like.
 - [ ] **Your LLM-as-judge is validated against ground truth.** A judge you have
       not tried to fool is a judge that is fooling you. Keep a set of known
       hard cases (`examples/bad_llm_judge_case.json`) and track how often the
-      judge disagrees with the golden answers.
+      judge disagrees with the golden answers. OpenAI documents this exact risk as
+      [grader hacking](https://developers.openai.com/api/docs/guides/graders);
+      LangSmith covers validating a judge in its
+      [LLM-as-a-judge](https://docs.langchain.com/langsmith/llm-as-judge) docs.
 - [ ] **The eval dataset is fixed and reproducible.** Same input, same numbers.
       If your evals are nondeterministic you cannot tell a real regression from
       noise. This repo runs evals in mock mode for exactly this reason.
@@ -27,7 +30,10 @@ see what "done" looks like.
 - [ ] **Every request emits a full trace: per-step inputs, outputs, latency,
       tokens, and cost.** See `agents/base.py` (`TraceStep`) and the committed
       examples in `traces/examples/`. "The dashboard is green" and "the system
-      did the right thing" must be separately checkable.
+      did the right thing" must be separately checkable. Emit traces against the
+      vendor-neutral
+      [OpenTelemetry GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai)
+      so they port across backends.
 - [ ] **You can open a single request and read what happened.** When something
       looks wrong, the trace should show which agent decided what, not just an
       aggregate.
@@ -36,7 +42,10 @@ see what "done" looks like.
 
 - [ ] **Guardrails are defence in depth, not model-only.** A deterministic layer
       plus a policy layer, either of which can block. See `agents/guardrail.py`.
-      The ticket body is untrusted input, never instructions.
+      The ticket body is untrusted input, never instructions. See
+      [OWASP LLM01: Prompt Injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+      and platform guardrails such as
+      [Google Model Armor](https://docs.cloud.google.com/security-command-center/docs/model-armor-overview).
 - [ ] **There is a human escalation path, and it is the default when unsure.**
       Flagged content, quality below the bar after retries, and doc/policy
       conflicts all escalate rather than auto-resolve. See `agents/finalizer.py`
@@ -55,4 +64,12 @@ see what "done" looks like.
 
 - [ ] **Prompt and model changes go through the same regression gate as code.**
       A prompt is code. Treat a prompt edit like a deploy: run the evals, compare
-      to baseline, review the delta.
+      to baseline, review the delta. See
+      [LangSmith Evaluation](https://docs.langchain.com/langsmith/evaluation) and
+      Anthropic's
+      [Define success criteria and build evaluations](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests).
+
+---
+
+Authoritative sources for every item above, mapped to the code, are in
+[references.md](references.md).
